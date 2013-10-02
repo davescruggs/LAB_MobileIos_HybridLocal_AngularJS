@@ -1,0 +1,18 @@
+<div ng-show="hasErrorMessage()">
+    <p>{{errorMessage}}</p>
+</div>
+
+<ul class="list-view right-one-icons" ng-repeat="current in employees">
+    <li>
+        <a href="/employees" class="content">
+            <h2>{{current.Id}}</h2>
+            <p>
+                <strong>{{current.first_name}} {{current.last_name}}</strong><br/>
+                {{current.hire_date}}
+            </p>
+            <div class="list-view-icons">
+                <span class="icon-right-arrow">&nbsp;</span>
+            </div>
+        </a>
+    </li>
+</ul>
