@@ -1,5 +1,5 @@
 {
-    "remoteAccessConsumerKey": "3MVG99OxTyEMCQ3i0pUIRYCDJa7BSo2Oi4sZu2wjKgMfjwu.Xe33W0bA8rgb3mBSL9wJ57Ic.o6zmBEHwKlb4",
+    "remoteAccessConsumerKey": "3MVG9A2kN3Bn17huk1q6sQgKMpyvnBbNeDtmSST7qQsbidksQDvjYKGVbgzTHdQSjx9M5lBk27Y2qaNi3jFW7",
     "oauthRedirectURI": "sfdc://success",
     "oauthScopes": ["full", "refresh_token"],
     "isLocal": true,
