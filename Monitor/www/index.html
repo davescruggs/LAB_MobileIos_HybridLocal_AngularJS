@@ -26,6 +26,7 @@
     
     <!-- AngularJS libs -->
     <script src="lib/angular/angular.min.1.1.5.js"></script> <!-- AngularJS -->
+    <script src="lib/angular/angular-resource.js"></script>  <!-- AngularJS ngResource for REST calls -->
     <script src="lib/angular/dropdownToggle.js"></script> <!-- Small JS lib to support login/logout dropdown menu -->
     <script src="lib/angular/angular-force.js"></script> <!-- Interface that connects your app w/ Entity framework -->
     
@@ -70,7 +71,9 @@
 <nav class="main-menu">
 <a href="#/contacts" onclick="$('.app-wrapper').toggleClass('menu-open');">Contacts</a>
 <a href="#/accounts" onclick="$('.app-wrapper').toggleClass('menu-open');">Accounts</a>
-<a href="#/leads" onclick="$('.app-wrapper').toggleClass('menu-open');">Leads</a>
+    <a href="#/leads" onclick="$('.app-wrapper').toggleClass('menu-open');">Leads</a>
+    <a href="#/employees" onclick="$('.app-wrapper').toggleClass('menu-open');">Employees</a>
+    <a href="#/about" onclick="$('.app-wrapper').toggleClass('menu-open');">About</a>
 
 </nav><!--#main-menu-->
 
