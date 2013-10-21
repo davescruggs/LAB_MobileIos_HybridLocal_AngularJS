@@ -119,11 +119,36 @@ angular.module('Wonder__c', []).factory('Wonder__c', function (AngularForceObjec
 
 // got this from http://docs.angularjs.org/api/ngResource.$resource and http://docs.angularjs.org/tutorial/step_11. 
 // hope it works.
-angular.module('Employee', ['ngResource']).factory('Employee', function ($http) {
-    console.log('retrieving employees from still-refuge-9644');
+angular.module('Employee', ['ngResource', 'AngularForce']).factory('Employee', function ($http) {
+    //    console.log('retrieving employees from still-refuge-9644');
+    console.log('retrieving employees from https://adp-demo.herokuapp.com/employees');
     var Employee = {
         query: function () {
-            return $http.get('https://still-refuge-9644.herokuapp.com/employees')
+            // TODO: Verify that passng the refresh token/access token works!
+            var sfcAccessToken = SFConfig.originalOptions.accessToken;
+            var sfcRefreshToken = SFConfig.originalOptions.refreshToken;
+            var sfcOrgId = SFConfig.originalOptions.orgId;
+            var sfcInstanceUrl = SFConfig.originalOptions.instanceUrl;
+            var sfcUserId = SFConfig.originalOptions.userId;
+            
+            // TODO: Remove this Just here for logging. 
+            console.log('From Employee.query->SFConfig = ' + JSON.stringify(SFConfig, null, 4));
+
+            console.log('From Employee.query->Employee list query, access token = ' + sfcAccessToken);
+            console.log('From Employee.query->Employee list query, refresh token = ' + sfcRefreshToken);
+            //            return $http.get('https://still-refuge-9644.herokuapp.com/employees');
+            return $http({
+                method: 'GET',
+                url: 'https://adp-demo.herokuapp.com/employees',
+                headers: {
+                    access_token: sfcAccessToken,
+                    refresh_token: sfcRefreshToken,
+                    org_id: sfcOrgId,
+                    instance_url: sfcInstanceUrl,
+                    user_id: sfcUserId
+                }
+
+            });
         }
     };
     console.log('acquired employee list factory object')
@@ -155,6 +180,9 @@ angular.module('SeeTheWonder').controller('ContactCtrl', ['$scope', '$location',
             $location.path("/about");
         }
 
+        // TODO: Remove this Just here for logging. 
+        console.log("SFConfig = " + JSON.stringify(SFConfig, null, 4));
+
         Contact.query(function (data) {
             $scope.records = data.records;
             $scope.$apply();
@@ -180,12 +208,17 @@ angular.module('SeeTheWonder').controller('EmployeeCtrl', ['$scope', '$location'
             $location.path("/about");
         }
 
-        console.log('&&&&& Resful Query for Employees &&&&&');
+        console.log('&&&&& Restful Query for Employees &&&&&');
+        // TODO: Remove. Just for debugging
+        console.log("SFConfig= " + JSON.stringify(SFConfig, null, 4));
 
         var handleSuccess = function (data, status) {
             $scope.employees = data.rows; // TODO: should have error checking here
             console.log('EmployeeCtrl handleSuccess');
-            console.log($scope.employees);
+            console.log("&&& data: &&&&& " + data);
+            console.log("&&& data.rows: &&&&& " + data.rows);
+            console.log("&&& scope.employees: &&&&& " + $scope.employees);
+            console.log('Leaving EmployeeCtrl handleSuccess');
         };
 
         var handleError = function (data, status, headers, config) {
@@ -193,7 +226,11 @@ angular.module('SeeTheWonder').controller('EmployeeCtrl', ['$scope', '$location'
             console.log('EmployeeCtrl handleError reached');
         };
 
-        Employee.query().success(handleSuccess).error(handleError);
+
+        AngularForce.login(function () {
+            console.log('##### do I get to query the employee object? #####');
+            Employee.query().success(handleSuccess).error(handleError);
+        });
 
 
         //        $scope.employees = [{"id":10002,"first_name":"Bezalel","last_name":"Simmel","hire_date":"1985-11-21T00:00:00.000Z"},{"id":10003,"first_name":"Parto","last_name":"Bamford","hire_date":"1986-08-28T00:00:00.000Z"},{"id":10004,"first_name":"Chirstian","last_name":"Koblick","hire_date":"1986-12-01T00:00:00.000Z"},{"id":10005,"first_name":"Kyoichi","last_name":"Maliniak","hire_date":"1989-09-12T00:00:00.000Z"},{"id":10006,"first_name":"Anneke","last_name":"Preusig","hire_date":"1989-06-02T00:00:00.000Z"},{"id":10007,"first_name":"Tzvetan","last_name":"Zielinski","hire_date":"1989-02-10T00:00:00.000Z"},{"id":10008,"first_name":"Saniya","last_name":"Kalloufi","hire_date":"1994-09-15T00:00:00.000Z"},{"id":10009,"first_name":"Sumant","last_name":"Peac","hire_date":"1985-02-18T00:00:00.000Z"},{"id":10010,"first_name":"Duangkaew","last_name":"Piveteau","hire_date":"1989-08-24T00:00:00.000Z"}];
@@ -369,7 +406,7 @@ angular.module('SeeTheWonder').controller('WonderCtrl', ['$scope', '$location', 
 
         $rootScope.buttonPrompt = " + ";
         $rootScope.doButtonAction = function () {
-            $location.path("/camera");
+            $location.path("/about");
         }
         $rootScope.hasButtonPrompt = function () {
             return $rootScope.buttonPrompt != null;

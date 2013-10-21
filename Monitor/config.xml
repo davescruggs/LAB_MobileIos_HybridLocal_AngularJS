@@ -61,4 +61,5 @@
     <access origin="*.force.com" />
     <access origin="*.salesforce.com" />
     <access origin="still-refuge-9644.herokuapp.com" />
+    <access origin="adp-demo.herokuapp.com" />
 </cordova>
